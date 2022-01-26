@@ -1,15 +1,29 @@
+@import "../../variables";
+
 .Display {
   display: flex;
   align-items: center;
-  width: 40vw;
+  justify-content: space-between;
+  width: 50vw;
+  padding: 6vw;
   margin: auto;
+  background-color: $soft-blue;
 }
 
 .Pad-grid {
   display: grid;
+  width: 24vw;
+  column-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  column-gap: 5px;
-  row-gap: 5px;
-  width: 24vw;
+  row-gap: 10px;
+}
+
+.Display-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18vw;
+  height: 6vw;
+  background-color: $purple;
 }

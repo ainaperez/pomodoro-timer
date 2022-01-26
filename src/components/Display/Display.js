@@ -102,8 +102,9 @@ class Display extends Component {
         {drums}
         </div>
 
-        <p>{this.state.name}</p>
-
+        <div className='Display-text'>
+        <p >{this.state.name}</p>
+        </div>
       </div>
   )}
 }

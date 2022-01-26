@@ -9,6 +9,7 @@ class DrumPad extends Component{
 
     this.makeSound = this.makeSound.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.activateKeyStyle = this.activateKeyStyle.bind(this);
 
   }
 
@@ -21,6 +22,7 @@ class DrumPad extends Component{
     sound.currentTime = 0;
     sound.play();
     this.props.displayName(this.props.id);
+    this.activateKeyStyle();
     //this.activatePad();
     //setTimeout(() => this.activatePad(), 100);
   }
@@ -30,7 +32,16 @@ class DrumPad extends Component{
     const letterUppercase = letter.toUpperCase(); //transform to uppercase to be able to compare to keyPress
     if(letterUppercase === this.props.keyPress){
       this.makeSound();
+      
     }
+
+  }
+
+  activateKeyStyle(){
+    const pad = document.getElementById(this.props.id);
+    console.log(pad)
+    pad.classList.add('active');
+    setTimeout(()=>{pad.classList.remove('active')}, 100)
 
   }
 

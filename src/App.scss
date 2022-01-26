@@ -1,7 +1,9 @@
 @import "variables";
 
 .App {
+  color: $black;
   text-align: center;
+  background-color: #fff;
 }
 
 .App-header {
@@ -10,10 +12,9 @@
   justify-content: center;
   min-height: 10vh;
   font-size: calc(10px + 2vmin);
-  color: white;
-  background-color: $strong-pink;
 }
 
 .App-main {
-  background-color: #faebf3;
+  height: 90vh;
+  padding-top: 10vh;
 }
