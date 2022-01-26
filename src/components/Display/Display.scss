@@ -1,0 +1,15 @@
+.Display {
+  display: flex;
+  align-items: center;
+  width: 40vw;
+  margin: auto;
+}
+
+.Pad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 5px;
+  row-gap: 5px;
+  width: 24vw;
+}
