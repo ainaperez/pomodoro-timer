@@ -2,7 +2,7 @@
   "name": "markdown-previewer",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/ainaperez/drum-machine/",
+  "homepage": "https://ainaperez.github.io/drum-machine",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
