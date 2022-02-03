@@ -1,8 +1,8 @@
-# DRUM MACHINE
+# Javascript Calculator
 
 # Project Description
 
-Drum machine build with React for the Free Code Camp FrontEnd libraries certification.
+Calculator build with React for the Free Code Camp FrontEnd libraries certification.
 
 I have also used sass for style nesting and variables.
 

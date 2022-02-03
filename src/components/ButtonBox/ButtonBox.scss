@@ -1,15 +1,13 @@
+@import "../../variables";
+
 .ButtonBox {
   display: grid;
-  padding-top: 40px;
+  padding-top: 20px;
   column-gap: 10px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
   row-gap: 10px;
-
-  //make all rows flex
-  div {
-    display: flex;
-  }
+  align-items: center;
 }
 
 .Space1 {
