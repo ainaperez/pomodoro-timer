@@ -37,9 +37,9 @@ class App extends Component {
         return this.handleOperators(prevDisplay, prevExpress, lastCharacter, input)
       }
   })
-}
+  }
 
-handleNumbers(prevDisplay, prevExpress, lastCharacter, input){
+  handleNumbers(prevDisplay, prevExpress, lastCharacter, input){
   //If it's starting point and starts from 0
   if(prevExpress.length === 1 && prevExpress[0] === 0){
 
@@ -65,7 +65,7 @@ handleNumbers(prevDisplay, prevExpress, lastCharacter, input){
         expression: [...prevExpress, input]})
     }
 }
-}
+  } 
   handleOperators(prevDisplay, prevExpress, lastCharacter, input){
     if(prevDisplay.length >=1 && prevExpress.length === 1 && prevExpress[0] === 0){
       return ({display: [...prevDisplay, input],

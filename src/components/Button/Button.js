@@ -4,12 +4,9 @@ import './Button.scss';
 
 
 const Button = (props) => (
-
   <div className={props.className} id={props.id} onClick={props.handle} >
     {props.value}
   </div>
-    
-  
 );
 
 Button.propTypes = {
@@ -18,7 +15,5 @@ Button.propTypes = {
   handle: PropTypes.func,
   value: PropTypes.any
 };
-
-Button.defaultProps = {};
 
 export default Button;
