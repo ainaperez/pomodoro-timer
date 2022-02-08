@@ -78,9 +78,6 @@ const Numbers = [
     value: '='
   }
 ]
-  
-  
-  
 ]
 
 class ButtonBox extends Component {
@@ -90,8 +87,6 @@ class ButtonBox extends Component {
     this.state={
       num: 0,
     }
-
-  
   }
   
   render(){
@@ -101,7 +96,12 @@ class ButtonBox extends Component {
                 key={i} 
                 id={number.id} 
                 value={number.value} 
-                handle={number.value === '=' ? this.props.displayResult : 
+                className={
+                  number.value === '=' ? 'Button Result' : 
+                  number.value === 'C' ? 'Button Reset' : 'Button Number'
+                }
+                handle={
+                  number.value === '=' ? this.props.displayResult : 
                         number.value === 'C' ? this.props.resetDisplay : 
                         this.props.displayOperations
                 } /> })
@@ -109,18 +109,17 @@ class ButtonBox extends Component {
     return(
 
     <div className="ButtonBox">
-      <div className='Space1'></div>
-      <div className='Space2'></div>
       {NumberButtons}
-      
     </div>
     )
   }
     
+}
+
+ButtonBox.propTypes = {
+  displayOperations: PropTypes.func,
+  displayResult: PropTypes.func,
+  resetDisplay: PropTypes.func,
 };
-
-ButtonBox.propTypes = {};
-
-ButtonBox.defaultProps = {};
 
 export default ButtonBox;

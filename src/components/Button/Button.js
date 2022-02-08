@@ -5,14 +5,19 @@ import './Button.scss';
 
 const Button = (props) => (
 
-  <div className="Button" id={props.id} onClick={props.handle} >
+  <div className={props.className} id={props.id} onClick={props.handle} >
     {props.value}
   </div>
     
   
 );
 
-Button.propTypes = {};
+Button.propTypes = {
+  className: PropTypes.string,
+  id: PropTypes.string,
+  handle: PropTypes.func,
+  value: PropTypes.any
+};
 
 Button.defaultProps = {};
 

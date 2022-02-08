@@ -20,20 +20,25 @@
 }
 
 .Calculator {
+  width: 220px;
   padding: 20px;
   margin: auto;
-  width: 220px;
-  border-radius: 5px;
   background-color: $main-color;
+  border-radius: 5px;
 }
 
 .Display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   width: 100%;
-  height: 40px;
+  height: 80px;
+  overflow-x: scroll;
   background-color: $third-color;
   border-radius: 5px;
-  overflow-x: scroll;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  p {
+    padding-right: 20px;
+  }
 }
