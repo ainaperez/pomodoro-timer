@@ -24,7 +24,6 @@ class App extends Component {
     e.preventDefault(); 
 
     const input = e.target.innerHTML;
-    console.log(input);
 
     this.setState(prevState =>{
       const prevDisplay = prevState.display,
@@ -32,7 +31,6 @@ class App extends Component {
             lastCharacter = prevExpress[prevExpress.length-1] ;
   
       if(!operatorsRegex.test(input)){ //if input is a number
-        console.log('hey')
         return this.handleNumbers(prevDisplay, prevExpress, lastCharacter, input)
       
       }else{ //if input is an operator   
@@ -105,7 +103,6 @@ handleNumbers(prevDisplay, prevExpress, lastCharacter, input){
     this.setState({display: [0], 
                     expression: [0]});
   }
-
   
   render(){
 
