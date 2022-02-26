@@ -1,134 +1,218 @@
 import './App.scss';
-import ButtonBox from './components/ButtonBox/ButtonBox';
+import Button from './components/Button/Button';
+import Sound  from './assets/audio/RK_BT3_Chord_07_Em7.wav'
 import { React, Component } from 'react';
 
-const operatorsRegex = /[+/\-*]/g;
 
 class App extends Component {
 
   constructor(props){
     super(props)
     this.state = {
-      display : [0],
-      expression:[0]
+      breakLength : 5, 
+      sessionLength: 25, 
+      timerLength: 1500, //total length in seconds
+      timerOn: false,
+      breakOn: false, 
+      
     }
+
+    this.timerId = null,
+    this.incrementCount = this.incrementCount.bind(this); 
+    this.decrementCount = this.decrementCount.bind(this);
+    this.countdownHandle = this.countdownHandle.bind(this);
+    this.startPauseHandle = this.startPauseHandle.bind(this);
+    this.changeSession = this.changeSession.bind(this);
+    this.resetHandle = this.resetHandle.bind(this);
     
-    this.handleDigits = this.handleDigits.bind(this);
-    this.handleOperators = this.handleOperators.bind(this);
-    this.handleNumbers = this.handleNumbers.bind(this)
-    this.displayResult = this.displayResult.bind(this);
-    this.resetDisplay = this.resetDisplay.bind(this);
   }
-  
-  handleDigits (e){
+
+  incrementCount(e){
+    e.preventDefault();
+
+    this.setState(prevState => {
+      if(e.target.id == 'break-increment'){
+        if(prevState.sessionLength == 60){
+          console.log('cannot go any higher');
+        }else{
+          prevState.breakLength++;
+          return ({breakLength: prevState.breakLength})
+        }
+      }else{
+        if(prevState.sessionLength == 60){
+          console.log('cannot go any higher');
+        }else{
+          prevState.sessionLength++
+          return ({sessionLength: prevState.sessionLength,
+                   timerLength: prevState.sessionLength*60})
+         }
+      }    
+    } )
+  }
+
+  decrementCount(e){
     e.preventDefault(); 
 
-    const input = e.target.innerHTML;
-
-    this.setState(prevState =>{
-      const prevDisplay = prevState.display,
-            prevExpress =  prevState.expression,
-            lastCharacter = prevExpress[prevExpress.length-1] ;
-  
-      if(!operatorsRegex.test(input)){ //if input is a number
-        return this.handleNumbers(prevDisplay, prevExpress, lastCharacter, input)
-      
-      }else{ //if input is an operator   
-        return this.handleOperators(prevDisplay, prevExpress, lastCharacter, input)
-      }
-  })
-  }
-
-  handleNumbers(prevDisplay, prevExpress, lastCharacter, input){
-  //If it's starting point and starts from 0
-  if(prevExpress.length === 1 && prevExpress[0] === 0){
-
-    if(input == '.'){ //allow 0.xxx
-      return ({display: [...prevDisplay, ...prevExpress],
-              expression: [0, input]})
-    }else if(input == '0'){ //don't repeat 0
-    return ({
-      expression: [0]})
-    }else{ //presses number   
-      return ({display: [input],
-        expression: [input]})
-      }
-  }else if(lastCharacter.match(/[+*/-]/)){
-    return ({display: [...prevDisplay, input],
-            expression: [input]})
-  }else{//if input has already started
-    //check if decimal has already been entered
-    if(input == '.' && /\./.test(prevExpress.join(''))){
-      console.log('already a decimal')
-    }else{//we enter number
-      return ({display: [...prevDisplay, input],
-        expression: [...prevExpress, input]})
-    }
-}
-  } 
-  handleOperators(prevDisplay, prevExpress, lastCharacter, input){
-    if(prevDisplay.length >=1 && prevExpress.length === 1 && prevExpress[0] === 0){
-      return ({display: [...prevDisplay, input],
-        expression: [input]});
-    }
-    else if(!lastCharacter.match(/[+*/-]/)){ //If we are following a number
-      return ({display: [...prevDisplay, input],
-              expression: [input]})
-    }
-    //if last character was an operator, and input is not '-', prevent repetition
-    else if(lastCharacter.match(/[+*/-]/) && input !== '-'){
-      return ({expression: [...prevExpress]})
-    }
-    //if input is '-' but is following a * or a /
-    else if(input == '-'){
-      if(/\/*/.test(lastCharacter)){   
-        return ({display: [...prevDisplay, input],
-          expression: [...prevExpress, input]})  
+    this.setState(prevState => {
+      if(e.target.id == 'break-decrement'){
+        if(prevState.breakLength == 0){
+          console.log('cannot go any lower')
+        }else{
+          prevState.breakLength--;
+          return ({breakLength: prevState.breakLength})
+        }
       }else{
-        console.log('cannot enter - after + or -');
+        if(prevState.sessionLength == 0){
+          console.log('cannot go any lower')
+        }else{
+          prevState.sessionLength--;
+          return ({sessionLength: prevState.sessionLength, 
+                   timerLength: prevState.sessionLength*60})
+        } 
       }
-    }   
+    } )
   }
 
-  displayResult(){
-    const display = this.state.display;
-    if(/[+*/\-.]$/.test(display.join(''))){
-      display.pop();
+  convertTime(Length){
+    const min = Math.floor(Length/60).toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false
+    }); 
+    const sec = (Length % 60).toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false
+    }); 
+    return min + ' : ' + sec; 
+  }
+
+  countdownHandle(){
+    this.setState(prevState => {
+        prevState.timerLength--
+        console.log(this.state.timerLength)
+        this.convertTime(prevState.timerLength);
+        return ({timerLength: prevState.timerLength})
+    })
+    if(this.state.timerLength == 0){
+      clearInterval(this.timerId);
+      this.playSound();
+      this.changeSession();
     }
-    this.setState({display: [eval(display.join(''))], 
-                   expression: [0]});
   }
 
-  resetDisplay(){
-    this.setState({display: [0], 
-                    expression: [0]});
+  changeSession(){
+    if(this.state.breakOn){
+      this.setState({
+        timerLength: this.state.sessionLength*60,
+        timerOn: false, 
+        breakOn: false
+      }, ()=>{
+        
+        this.startPauseHandle()
+      }
+      )
+    }else{
+      this.setState({
+        timerLength: this.state.breakLength*60,
+        timerOn: false, 
+        breakOn: true
+      }, ()=>{
+        this.startPauseHandle()
+      })
+    }
   }
-  
+
+  startPauseHandle(){
+    console.log(this.state.timerOn)
+    if(!this.state.timerOn){
+      this.setState({timerOn: true}, 
+        ()=>{
+          if(this.state.breakOn){
+          console.log('break')
+          this.timerId = setInterval(this.countdownHandle, 1000, this.state.breakOn); 
+          
+        }else{
+          console.log('session'); 
+          this.timerId = setInterval(this.countdownHandle, 1000, this.state.breakOn);   
+        }}
+      )  
+    }else{
+      clearInterval(this.timerId);
+      this.setState({timerOn: false})
+      console.log(this.state.timerOn)
+      
+    }
+  }
+
+  playSound(){
+    const sounds = document.getElementById('sound');
+    console.log(sounds);
+    sounds.play();
+  }
+
+
+  resetHandle(){
+    clearInterval(this.timerId);
+    this.setState({
+        breakLength : 5, 
+        sessionLength: 25, 
+        timerLength: 1500, //total length in seconds
+        timerOn: false,
+      })
+  }
+
   render(){
 
-    const displayExpression = this.state.expression.join('');
-    const displayString = this.state.display.join('');
-
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <p>Javascript Calculator</p>
-        </header>
-        <main id='wrapper' className='App-main'>
-          <div className='Calculator'>
-          <div className='Display'>
-            <p id='display' >{displayString}</p>
-            <p>{displayExpression}</p>
-          </div>  
-          <ButtonBox 
-            displayOperations={this.handleDigits} 
-            displayResult={this.displayResult}
-            resetDisplay={this.resetDisplay} />
+
+      <div id='wrapper' className='app-main w-40 m-auto t-cent'>
+        <div className='m-auto'>
+          <div className='d-flex'>
+            <div className='minw-200'>
+              <div id='break-label'>
+                Break Length
+              </div>
+                <div className='d-flex'>
+                <Button id='break-increment' 
+                        className='p-10 br-5 bg-c-1 m-5' 
+                        clickHandle={this.incrementCount}>inc</Button>
+                <p id='break-length'>{this.state.breakLength}</p>
+                <Button id='break-decrement' 
+                        className='p-10 br-5 bg-c-2 m-5' 
+                        clickHandle={this.decrementCount}>dec</Button>
+                </div>
             </div>
-        </main>
-        
+            <div className='minw-200'>
+              <div id='session-label'>
+                Session Length
+              </div>
+                <div className='d-flex'>
+                <Button id='session-increment' 
+                        className='p-10 br-5 bg-c-1 m-5' 
+                        clickHandle={this.incrementCount}>inc</Button>
+                <p id='session-length'>{this.state.sessionLength}</p>
+                <Button id='session-decrement' 
+                        className='p-10 br-5 bg-c-2 m-5' 
+                        clickHandle={this.decrementCount}>dec</Button>
+                </div>
+            </div>
+          </div>
+
+          <h1 id='timer-label'>{this.state.breakOn ? 'Break' : 'Session'}</h1>
+
+          <p id='time-left'>{this.convertTime(this.state.timerLength)}</p>
+         
+          <Button id='start_stop' 
+                  className='w-40 m-auto p-10 br-5 bg-c-1' 
+                  clickHandle={this.startPauseHandle}>
+                  {this.state.timerOn ? 'stop ' : 'start'}</Button>
+          <Button id='reset' 
+                  className='w-40 m-auto p-10 br-5 bg-c-2' 
+                  clickHandle={this.resetHandle}>reset</Button>
       </div>
-    );
+      <audio id='sound' src={Sound}></audio>
+      </div>
+    
+    )
   }
 
   

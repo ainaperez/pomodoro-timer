@@ -3,42 +3,56 @@
 .App {
   color: black;
   text-align: center;
-  background-color: #fff;
+  background-color: $main-color;
 }
 
-.App-header {
+.app-main {
+  height: 100vh;
+  font-size: calc(10px + 1.5vmin);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.minw-200 {
+  min-width: 200px;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.m-5 {
+  margin: 10px;
+}
+
+.t-cent {
+  text-align: center;
+}
+
+.d-flex {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 10vh;
-  font-size: calc(10px + 2vmin);
 }
 
-.App-main {
-  height: 90vh;
-  margin: auto;
-}
-
-.Calculator {
-  width: 220px;
-  padding: 20px;
-  margin: auto;
-  background-color: $main-color;
+.br-5 {
   border-radius: 5px;
 }
 
-.Display {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  width: 100%;
-  height: 80px;
-  overflow-x: scroll;
+.p-10 {
+  padding: 10px;
+}
+
+.bg-c-1 {
+  background-color: $secondary-color;
+}
+
+.bg-c-2 {
   background-color: $third-color;
-  border-radius: 5px;
-
-  p {
-    padding-right: 20px;
-  }
 }
