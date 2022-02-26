@@ -3,7 +3,6 @@ import Button from './components/Button/Button';
 import Sound  from './assets/audio/RK_BT3_Chord_07_Em7.wav'
 import { React, Component } from 'react';
 
-
 class App extends Component {
 
   constructor(props){
@@ -164,11 +163,12 @@ class App extends Component {
 
     return (
 
-      <div id='wrapper' className='app-main w-40 m-auto t-cent'>
+      <div className='app-main d-flex'>
+      <div id='wrapper' className='wrapper d-flex w-50 h-60 m-auto t-cent'>
         <div className='m-auto'>
           <div className='d-flex'>
             <div className='minw-200'>
-              <div id='break-label'>
+              <div id='break-label' className='mb-10'>
                 Break Length
               </div>
                 <div className='d-flex'>
@@ -182,7 +182,7 @@ class App extends Component {
                 </div>
             </div>
             <div className='minw-200'>
-              <div id='session-label'>
+              <div id='session-label' className='mb-10'>
                 Session Length
               </div>
                 <div className='d-flex'>
@@ -202,7 +202,7 @@ class App extends Component {
           <p id='time-left'>{this.convertTime(this.state.timerLength)}</p>
          
           <Button id='start_stop' 
-                  className='w-40 m-auto p-10 br-5 bg-c-1' 
+                  className='w-40 m-auto mb-10 p-10 br-5 bg-c-1' 
                   clickHandle={this.startPauseHandle}>
                   {this.state.timerOn ? 'stop ' : 'start'}</Button>
           <Button id='reset' 
@@ -210,6 +210,7 @@ class App extends Component {
                   clickHandle={this.resetHandle}>reset</Button>
       </div>
       <audio id='sound' src={Sound}></audio>
+      </div>
       </div>
     
     )

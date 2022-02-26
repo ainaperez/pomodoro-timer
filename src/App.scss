@@ -3,16 +3,27 @@
 .App {
   color: black;
   text-align: center;
-  background-color: $main-color;
 }
 
 .app-main {
   height: 100vh;
   font-size: calc(10px + 1.5vmin);
+}
+
+.wrapper {
+  height: 60vh;
+  background-color: $main-color;
+  border-radius: 20px;
+}
+
+.d-flex {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.w-50 {
+  width: 50%;
 }
 
 .w-40 {
@@ -31,14 +42,12 @@
   margin: 10px;
 }
 
-.t-cent {
-  text-align: center;
+.mb-10 {
+  margin-bottom: 10px;
 }
 
-.d-flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.t-cent {
+  text-align: center;
 }
 
 .br-5 {
